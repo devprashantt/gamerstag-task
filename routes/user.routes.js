@@ -13,13 +13,18 @@ const {
 } = require("../controllers/user.controller");
 
 // Get self information
-router.get("/self", authenticateToken, getSelf);
+router.get(
+  "/self",
+  authenticateToken,
+  authorizeRoles(["SuperAdmin", "BranchManager", "Salesperson"]),
+  getSelf
+);
 
 // Get user list
 router.get(
   "/list",
   authenticateToken,
-  authorizeRoles(["SuperAdmin", "Branch Manager"]),
+  authorizeRoles(["SuperAdmin", "BranchManager"]),
   getUserList
 );
 
@@ -27,7 +32,7 @@ router.get(
 router.post(
   "/create",
   authenticateToken,
-  authorizeRoles(["SuperAdmin", "Branch Manager"]),
+  authorizeRoles(["SuperAdmin", "BranchManager"]),
   createUser
 );
 
@@ -35,7 +40,7 @@ router.post(
 router.delete(
   "/delete/:userId",
   authenticateToken,
-  authorizeRoles(["SuperAdmin", "Branch Manager"]),
+  authorizeRoles(["SuperAdmin", "BranchManager"]),
   deleteUser
 );
 

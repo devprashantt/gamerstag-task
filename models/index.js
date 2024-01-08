@@ -23,7 +23,6 @@ const sequelize = new Sequelize(
 
 const db = {};
 
-// Import all models dynamically
 fs.readdirSync(__dirname)
   .filter((file) => file !== "index.js")
   .forEach((file) => {

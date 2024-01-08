@@ -25,4 +25,15 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { loginUser };
+const registerUser = async (req, res) => {
+  try {
+    const { username, password, role } = req.body;
+    const user = await User.create({ username, password, role });
+    return res.status(200).json({ user });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+module.exports = { loginUser, registerUser };

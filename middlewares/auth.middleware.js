@@ -12,7 +12,6 @@ const authenticateToken = (req, res, next) => {
 
   // Remove Bearer from string
   const tokenString = token.split(" ");
-  const tokenType = tokenString[0];
   const tokenValue = tokenString[1];
 
   jwt.verify(tokenValue, process.env.JWT_SECRET, (err, user) => {

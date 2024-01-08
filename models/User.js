@@ -1,6 +1,13 @@
-// models/user.js
-module.exports = (sequelize, DataTypes) => {
+// models/User.js
+const { DataTypes } = require("sequelize");
+
+module.exports = (sequelize) => {
   const User = sequelize.define("User", {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     username: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -13,36 +20,28 @@ module.exports = (sequelize, DataTypes) => {
     role: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        isIn: [["SuperAdmin", "BranchManager", "Salesperson"]],
+      },
     },
   });
 
   User.associate = (models) => {
-    // SuperAdmin has many Branch Managers
-    User.hasMany(models.User, {
-      as: "BranchManagers",
-      foreignKey: "superAdminId",
-    });
-
-    // Each Branch Manager belongs to a SuperAdmin
     User.belongsTo(models.User, {
       as: "SuperAdmin",
       foreignKey: "superAdminId",
     });
-
-    // Each Branch Manager has many Salespersons
     User.hasMany(models.User, {
-      as: "Salespersons",
-      foreignKey: "branchManagerId",
+      as: "BranchManagers",
+      foreignKey: "superAdminId",
     });
-
-    // Each Salesperson belongs to a Branch Manager and a SuperAdmin
     User.belongsTo(models.User, {
       as: "BranchManager",
       foreignKey: "branchManagerId",
     });
-    User.belongsTo(models.User, {
-      as: "SalespersonSuperAdmin",
-      foreignKey: "superAdminId",
+    User.hasMany(models.User, {
+      as: "Salespersons",
+      foreignKey: "branchManagerId",
     });
   };
 
