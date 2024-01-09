@@ -1,9 +1,9 @@
-// index.js
 const express = require("express");
 const bodyParser = require("body-parser");
-const { sequelize } = require("./models");
+
 const authRoutes = require("./routes/auth.routes");
 const userRoutes = require("./routes/user.routes");
+const { sequelize } = require("./models");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -17,7 +17,6 @@ app.get("/", (req, res) => {
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/user", userRoutes);
 
-// Database synchronization
 sequelize
   .sync()
   .then(() => {
