@@ -33,7 +33,6 @@ fs.readdirSync(__dirname)
     db[model.name] = model;
   });
 
-// Apply associations if defined
 Object.values(db)
   .filter((model) => model.associate)
   .forEach((model) => model.associate(db));
